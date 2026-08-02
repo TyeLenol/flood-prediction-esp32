@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -36,7 +36,13 @@ export function RainfallChart({ data }: RainfallChartProps) {
         Rainfall Trend
       </h3>
       <ResponsiveContainer width="100%" height={320}>
-        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+        <AreaChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+          <defs>
+            <linearGradient id="rainfallGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="hsl(199, 89%, 48%)" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="hsl(199, 89%, 48%)" stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 116, 139, 0.1)" />
           <XAxis
             dataKey="time"
@@ -55,15 +61,16 @@ export function RainfallChart({ data }: RainfallChartProps) {
             }}
             labelStyle={{ color: 'rgb(248, 250, 252)' }}
           />
-          <Line
+          <Area
             type="monotone"
             dataKey="rainfall"
             stroke="hsl(199, 89%, 48%)"
-            dot={false}
+            fill="url(#rainfallGradient)"
             strokeWidth={2}
             isAnimationActive={true}
+            dot={false}
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );
