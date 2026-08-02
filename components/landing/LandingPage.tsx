@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import './landing.css';
+import { SmoothScroll } from './SmoothScroll';
 import { HeroSection } from './sections/HeroSection';
 import { ProblemSection } from './sections/ProblemSection';
 import { SolutionSection } from './sections/SolutionSection';
@@ -21,9 +22,6 @@ export function LandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Basic setup or global checks can go here if needed.
-    // Most GSAP logic is inside individual sections.
-    
     // Clear out ScrollTriggers on unmount
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -31,17 +29,19 @@ export function LandingPage() {
   }, []);
 
   return (
-    <div 
-      ref={containerRef} 
-      className="bg-[#050b14] text-slate-200 min-h-screen overflow-x-hidden selection:bg-teal-500/30 font-sans"
-    >
-      <HeroSection />
-      <ProblemSection />
-      <SolutionSection />
-      <DisassembleSection />
-      <DeploymentSection />
-      <SimulationSection />
-      <CTASection />
-    </div>
+    <SmoothScroll>
+      <div 
+        ref={containerRef} 
+        className="bg-[#050b14] text-slate-200 min-h-screen overflow-x-hidden selection:bg-teal-500/30 font-sans"
+      >
+        <HeroSection />
+        <ProblemSection />
+        <SolutionSection />
+        <DisassembleSection />
+        <DeploymentSection />
+        <SimulationSection />
+        <CTASection />
+      </div>
+    </SmoothScroll>
   );
 }
