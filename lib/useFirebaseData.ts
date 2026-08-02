@@ -80,7 +80,13 @@ export function useFirebaseData() {
         thresholdsRef,
         (snapshot) => {
           if (snapshot.exists()) {
-            setThresholds(snapshot.val() as Thresholds);
+            const data = snapshot.val();
+            // Handle both formats: {warning, danger} and {warningLevel, dangerLevel}
+            const thresholdData: Thresholds = {
+              warning: data.warning || data.warningLevel,
+              danger: data.danger || data.dangerLevel,
+            };
+            setThresholds(thresholdData);
           }
         },
         (err) => {
