@@ -19,7 +19,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'FloodWatch — Real-time Flood Monitoring',
+  title: 'Levee — Real-time Flood Monitoring',
   description:
     'Real-time flood monitoring with water level tracking, rainfall measurement, and environmental sensor data from ESP32 IoT hardware.',
   icons: {
