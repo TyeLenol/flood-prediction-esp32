@@ -8,9 +8,11 @@ import './landing.css';
 import { SmoothScroll } from './SmoothScroll';
 import { Preloader } from './Preloader';
 import { BackgroundAtmosphere } from './BackgroundAtmosphere';
+import { SignalThread } from './SignalThread';
 import { HeroSection } from './sections/HeroSection';
 import { ProblemSection } from './sections/ProblemSection';
 import { SolutionSection } from './sections/SolutionSection';
+import { CredibilityStrip } from './sections/CredibilityStrip';
 import { DisassembleSection } from './sections/DisassembleSection';
 import { DeploymentSection } from './sections/DeploymentSection';
 import { SimulationSection } from './sections/SimulationSection';
@@ -34,6 +36,7 @@ export function LandingPage() {
     <SmoothScroll>
       <Preloader />
       <BackgroundAtmosphere />
+      <SignalThread />
       <div 
         ref={containerRef} 
         className="text-slate-200 min-h-screen overflow-x-hidden selection:bg-teal-500/30 font-sans relative z-10"
@@ -41,6 +44,7 @@ export function LandingPage() {
         <HeroSection />
         <ProblemSection />
         <SolutionSection />
+        <CredibilityStrip />
         <DisassembleSection />
         <DeploymentSection />
         <SimulationSection />
