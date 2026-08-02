@@ -125,7 +125,8 @@ function LiveDot({ stale }: { stale: boolean }) {
 export function OverviewTab() {
   const { reading, history, thresholds, loading, error } = useFirebaseDataContext();
 
-  const isStale = reading ? Date.now() - reading.timestamp > 120_000 : false;
+  // reading.timestamp is Unix seconds; Date.now() is ms — compare in seconds
+  const isStale = reading ? Date.now() / 1000 - reading.timestamp > 120 : false;
 
   const timeToWarning = useMemo(
     () =>
@@ -185,7 +186,7 @@ export function OverviewTab() {
           </div>
         </div>
         <p className="text-xs text-slate-400 dark:text-muted-foreground mt-2">
-          Last sync: {new Date(reading.timestamp).toLocaleString()}
+          Last sync: {new Date(reading.timestamp * 1000).toLocaleString()}
           {isStale && (
             <span className="ml-2 text-amber-500">
               — Check sensor power and GSM connectivity
