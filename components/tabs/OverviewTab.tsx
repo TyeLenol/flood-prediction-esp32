@@ -125,8 +125,7 @@ function LiveDot({ stale }: { stale: boolean }) {
 export function OverviewTab() {
   const { reading, history, thresholds, loading, error } = useFirebaseDataContext();
 
-  // reading.timestamp is Unix seconds; Date.now() is ms — compare in seconds
-  const isStale = reading ? Date.now() / 1000 - reading.timestamp > 120 : false;
+  const isStale = reading ? Date.now() - reading.timestamp * 1000 > 120_000 : false;
 
   const timeToWarning = useMemo(
     () =>

@@ -115,16 +115,17 @@ export function AnalyticsTab() {
   const { history, thresholds, loading, error } = useFirebaseDataContext();
   const [timeRange, setTimeRange] = useState<TimeRange>('6h');
 
-  /* Filtered history for time-range charts */
+  /* Filtered history for time-range charts.
+     Timestamps are Unix seconds, so compare deltas in seconds. */
   const filteredHistory = useMemo((): HistoryEntry[] => {
     if (history.length === 0) return [];
     const latestTs = history[history.length - 1].timestamp;
-    const rangeMs: Record<TimeRange, number> = {
-      '1h':  1  * 60 * 60 * 1000,
-      '6h':  6  * 60 * 60 * 1000,
-      '24h': 24 * 60 * 60 * 1000,
+    const rangeSec: Record<TimeRange, number> = {
+      '1h':   1 * 60 * 60,
+      '6h':   6 * 60 * 60,
+      '24h': 24 * 60 * 60,
     };
-    return history.filter(h => latestTs - h.timestamp <= rangeMs[timeRange]);
+    return history.filter(h => latestTs - h.timestamp <= rangeSec[timeRange]);
   }, [history, timeRange]);
 
   /* Aggregate stats — always computed from full history, not filtered */

@@ -29,7 +29,7 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
   // Format data for chart (limit to last 50 points for clarity)
   const chartData = data.slice(-50).map((entry) => ({
     ...entry,
-    time: new Date(entry.timestamp).toLocaleTimeString(),
+    time: new Date(entry.timestamp * 1000).toLocaleTimeString(),
   }));
 
   // Calculate Y-axis domain to include thresholds

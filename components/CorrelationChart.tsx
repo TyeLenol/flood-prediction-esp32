@@ -28,7 +28,7 @@ export function CorrelationChart({ data }: CorrelationChartProps) {
   // Format data for chart
   const chartData = data.map((entry) => ({
     ...entry,
-    time: new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    time: new Date(entry.timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
   }));
 
   return (
