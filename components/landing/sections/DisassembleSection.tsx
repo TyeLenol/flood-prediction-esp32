@@ -62,7 +62,7 @@ export function DisassembleSection() {
           x: tx,
           y: ty,
           duration: 1.5,
-          ease: 'power2.out',
+          ease: 'expo.out', // Upgraded to expo.out
         }, 0.5 + (i * 0.1)); // Stagger start times
       });
 
@@ -71,7 +71,7 @@ export function DisassembleSection() {
         tl.to(label, {
           opacity: 1,
           duration: 0.5,
-          ease: 'power1.inOut'
+          ease: 'power2.out' // Kept this as simple fade
         }, 1.2 + (i * 0.1));
       });
 
@@ -86,7 +86,7 @@ export function DisassembleSection() {
         x: '-50%', // Back to default transform translate
         y: '-50%',
         duration: 1.5,
-        ease: 'power3.inOut'
+        ease: 'back.inOut(1.2)' // Upgraded to back.inOut for a springy reassembly
       });
 
       // Phase 8: assembled core fades back in & pulses
