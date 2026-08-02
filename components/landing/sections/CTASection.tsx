@@ -43,7 +43,7 @@ export function CTASection() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link 
-            href="https://flood-prediction-esp32.vercel.app" 
+            href="/dashboard" 
             className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-teal-500 hover:bg-teal-400 rounded-full transition-colors duration-300"
           >
             See it live

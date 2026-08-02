@@ -7,13 +7,13 @@ import type { ReactNode } from 'react';
 
 /**
  * Renders the dashboard chrome (Navigation + Firebase provider + padded main)
- * on all routes EXCEPT /landing, which gets a clean full-bleed canvas.
+ * on all /dashboard routes. The root route (/) is the landing page and gets a clean full-bleed canvas.
  */
 export function LayoutShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const isLanding = pathname === '/landing';
+  const isDashboard = pathname?.startsWith('/dashboard');
 
-  if (isLanding) {
+  if (!isDashboard) {
     return <>{children}</>;
   }
 

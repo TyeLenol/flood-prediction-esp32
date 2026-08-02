@@ -84,7 +84,7 @@ export function HeroSection() {
 
         <div ref={ctaRef} className="flex justify-center">
           <Link 
-            href="https://flood-prediction-esp32.vercel.app" 
+            href="/dashboard" 
             className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-teal-500 hover:bg-teal-400 rounded-full transition-colors duration-300"
           >
             See it live
