@@ -2,14 +2,15 @@
 
 import { createContext, useContext, type ReactNode } from 'react';
 import { useFirebaseData } from './useFirebaseData';
-import type { Reading, HistoryEntry, Thresholds } from './useFirebaseData';
+import type { Reading, HistoryEntry, Thresholds, DeviceLocation } from './useFirebaseData';
 
-export type { Reading, HistoryEntry, Thresholds };
+export type { Reading, HistoryEntry, Thresholds, DeviceLocation };
 
 interface FirebaseDataContextValue {
   reading: Reading | null;
   history: HistoryEntry[];
   thresholds: Thresholds | null;
+  deviceLocation: DeviceLocation;
   loading: boolean;
   error: string | null;
 }
@@ -18,6 +19,7 @@ const FirebaseDataContext = createContext<FirebaseDataContextValue>({
   reading: null,
   history: [],
   thresholds: null,
+  deviceLocation: { latitude: null, longitude: null },
   loading: true,
   error: null,
 });
