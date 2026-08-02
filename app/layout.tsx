@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'Flood Monitoring Dashboard',
+  description: 'Real-time flood monitoring with water level tracking, rainfall measurement, and environmental sensor data',
   generator: 'v0.app',
   icons: {
     icon: [
