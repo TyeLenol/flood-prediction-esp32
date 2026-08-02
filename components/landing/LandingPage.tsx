@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import './landing.css';
 import { SmoothScroll } from './SmoothScroll';
+import { Preloader } from './Preloader';
+import { BackgroundAtmosphere } from './BackgroundAtmosphere';
 import { HeroSection } from './sections/HeroSection';
 import { ProblemSection } from './sections/ProblemSection';
 import { SolutionSection } from './sections/SolutionSection';
@@ -30,9 +32,11 @@ export function LandingPage() {
 
   return (
     <SmoothScroll>
+      <Preloader />
+      <BackgroundAtmosphere />
       <div 
         ref={containerRef} 
-        className="bg-[#050b14] text-slate-200 min-h-screen overflow-x-hidden selection:bg-teal-500/30 font-sans"
+        className="text-slate-200 min-h-screen overflow-x-hidden selection:bg-teal-500/30 font-sans relative z-10"
       >
         <HeroSection />
         <ProblemSection />

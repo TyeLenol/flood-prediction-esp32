@@ -15,25 +15,28 @@ export function SolutionSection() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
+          start: 'top top', // Start pinning when it hits the top
+          pin: true,
+          end: '+=800', // Pin for 800px of scroll
+          scrub: 1, // Tie it to scroll scrub rather than play-once for better pinned feel
         }
       });
 
       tl.fromTo(textRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
       )
+      .to({}, { duration: 0.5 }) // Brief pause for reading
       .fromTo(leveeRef.current,
-        { opacity: 0, scale: 0.9, y: 20 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(1.5)' },
-        '-=0.2'
+        { opacity: 0, scale: 0.8, y: 40 },
+        { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: 'back.out(1.5)' }
       )
+      .to({}, { duration: 0.5 }) // Brief pause
       .fromTo(imgRef.current,
-        { opacity: 0, scale: 0.7 },
-        { opacity: 1, scale: 1, duration: 0.9, ease: 'power2.out' },
-        '-=0.4'
-      );
+        { opacity: 0, scale: 0.7, y: 50 },
+        { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: 'expo.out' }
+      )
+      .to({}, { duration: 1 }); // Hold at the end before unpinning
     }, containerRef);
 
     return () => ctx.revert();
