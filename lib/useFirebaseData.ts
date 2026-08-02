@@ -47,7 +47,7 @@ export function useFirebaseData() {
           if (snapshot.exists()) {
             const val = snapshot.val();
             // DEBUG — remove after confirming timestamp is correct
-            console.log('[FloodWatch] /readings raw value:', val, '| timestamp*1000 →', val?.timestamp ? new Date(val.timestamp * 1000).toLocaleString() : 'no timestamp');
+            console.log('[Levee] /readings raw value:', val, '| timestamp*1000 →', val?.timestamp ? new Date(val.timestamp * 1000).toLocaleString() : 'no timestamp');
             setReading(val as Reading);
           }
         },
@@ -117,7 +117,7 @@ export function useFirebaseData() {
           }
         },
         (err) => {
-          console.warn('[FloodWatch] Firebase /device error:', err.message);
+          console.warn('[Levee] Firebase /device error:', err.message);
         }
       );
 
