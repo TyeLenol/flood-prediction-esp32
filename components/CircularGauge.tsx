@@ -55,9 +55,25 @@ export function CircularGauge({
   const centerX = isLarge ? 100 : 60;
   const centerY = isLarge ? 100 : 60;
 
+  const getStatusEffect = () => {
+    if (!isLarge || color !== 'green-yellow-red') return null;
+    if (value >= (dangerLevel || 0)) return 'animate-pulse text-red-500/20';
+    if (value >= (warningLevel || 0)) return 'animate-ping text-yellow-500/10';
+    return 'animate-[pulse_3s_infinite] text-blue-500/5';
+  };
+
+  const statusEffect = getStatusEffect();
+
   return (
     <div className="flex flex-col items-center">
       <div className="relative inline-flex items-center justify-center">
+        {/* Ripple Effect Background */}
+        {isLarge && statusEffect && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className={`w-40 h-40 rounded-full bg-current ${statusEffect}`} />
+            <div className={`w-32 h-32 rounded-full bg-current ${statusEffect.replace('3s', '4s')}`} />
+          </div>
+        )}
         {/* SVG Gauge */}
         <svg
           width={viewBoxSize}
