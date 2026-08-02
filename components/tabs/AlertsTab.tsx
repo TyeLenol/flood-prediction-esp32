@@ -160,7 +160,7 @@ export function AlertsTab() {
                     style={{ animationDelay: `${i * 30}ms` }}
                   >
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-300 font-mono text-xs">
-                      {new Date(alert.timestamp).toLocaleString()}
+                      {new Date(alert.timestamp * 1000).toLocaleString()}
                     </td>
                     <td className="px-6 py-4">
                       <span

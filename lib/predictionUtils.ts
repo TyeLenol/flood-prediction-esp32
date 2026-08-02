@@ -33,7 +33,7 @@ export function calculateTimeToThreshold(
   let intervals = 0;
 
   for (let i = 1; i < recentData.length; i++) {
-    const timeDiff = (recentData[i].timestamp - recentData[i - 1].timestamp) / (1000 * 60); // minutes
+    const timeDiff = (recentData[i].timestamp - recentData[i - 1].timestamp) / 60; // seconds → minutes
     const levelDiff = recentData[i].waterLevel - recentData[i - 1].waterLevel;
 
     if (timeDiff >= 0.5) { // enforce ≥ 30-second minimum between readings

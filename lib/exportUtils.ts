@@ -5,8 +5,8 @@ export function exportToCSV(data: HistoryEntry[]) {
 
   const headers = ['Timestamp', 'Date', 'Water Level (cm)', 'Rainfall (mm)'];
   const rows = data.map(entry => [
-    entry.timestamp,                                   // raw Unix seconds (correct for data consumers)
-    new Date(entry.timestamp * 1000).toLocaleString(), // human-readable date
+    entry.timestamp,
+    new Date(entry.timestamp * 1000).toLocaleString(),
     entry.waterLevel,
     entry.rainfall
   ]);
