@@ -24,12 +24,18 @@ export interface Thresholds {
   danger: number;
 }
 
+export interface DeviceLocation {
+  latitude: number | null;
+  longitude: number | null;
+}
+
 export function useFirebaseData() {
-  const [reading, setReading] = useState<Reading | null>(null);
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [thresholds, setThresholds] = useState<Thresholds | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [reading, setReading]           = useState<Reading | null>(null);
+  const [history, setHistory]           = useState<HistoryEntry[]>([]);
+  const [thresholds, setThresholds]     = useState<Thresholds | null>(null);
+  const [deviceLocation, setDeviceLoc] = useState<DeviceLocation>({ latitude: null, longitude: null });
+  const [loading, setLoading]           = useState(true);
+  const [error, setError]               = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -94,11 +100,30 @@ export function useFirebaseData() {
         }
       );
 
+      // Listen to device location
+      const deviceRef = ref(database, 'device');
+      const unsubscribeDevice = onValue(
+        deviceRef,
+        (snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            setDeviceLoc({
+              latitude:  data.latitude  ?? null,
+              longitude: data.longitude ?? null,
+            });
+          }
+        },
+        (err) => {
+          console.warn('[FloodWatch] Firebase /device error:', err.message);
+        }
+      );
+
       // Cleanup subscriptions
       return () => {
-        off(readingsRef, 'value', unsubscribeReadings);
-        off(historyRef, 'value', unsubscribeHistory);
-        off(thresholdsRef, 'value', unsubscribeThresholds);
+        off(readingsRef,    'value', unsubscribeReadings);
+        off(historyRef,     'value', unsubscribeHistory);
+        off(thresholdsRef,  'value', unsubscribeThresholds);
+        off(deviceRef,      'value', unsubscribeDevice);
       };
     } catch (err) {
       setError(`Error initializing Firebase: ${err}`);
@@ -107,5 +132,5 @@ export function useFirebaseData() {
     }
   }, []);
 
-  return { reading, history, thresholds, loading, error };
+  return { reading, history, thresholds, deviceLocation, loading, error };
 }
