@@ -32,19 +32,29 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
     time: new Date(entry.timestamp).toLocaleTimeString(),
   }));
 
+  // Calculate Y-axis domain to include thresholds
+  const minThreshold = Math.min(thresholds?.warning || 0, thresholds?.danger || 0);
+  const maxThreshold = Math.max(thresholds?.warning || 0, thresholds?.danger || 0);
+  const minData = Math.min(...chartData.map((d) => d.waterLevel), minThreshold);
+  const maxData = Math.max(...chartData.map((d) => d.waterLevel), maxThreshold);
+  
+  // Add 20% padding to show thresholds clearly
+  const yDomain = [Math.floor(minData * 0.8), Math.ceil(maxData * 1.2)];
+
   return (
     <div className="w-full bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-6">
       <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
         Water Level Trend
       </h3>
       <ResponsiveContainer width="100%" height={320}>
-        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+        <LineChart data={chartData} margin={{ top: 5, right: 150, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 116, 139, 0.1)" />
           <XAxis
             dataKey="time"
             tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
           <YAxis
+            domain={yDomain}
             label={{ value: 'Water Level (cm)', angle: -90, position: 'insideLeft' }}
             tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
