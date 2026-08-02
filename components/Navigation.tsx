@@ -11,7 +11,7 @@ import type { HistoryEntry, Thresholds } from '@/lib/FirebaseDataContext';
 const TABS = [
   {
     label: 'Overview',
-    href: '/',
+    href: '/dashboard',
     icon: (
       <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -21,7 +21,7 @@ const TABS = [
   },
   {
     label: 'Analytics',
-    href: '/analytics',
+    href: '/dashboard/analytics',
     icon: (
       <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -31,7 +31,7 @@ const TABS = [
   },
   {
     label: 'Alerts',
-    href: '/alerts',
+    href: '/dashboard/alerts',
     icon: (
       <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -41,7 +41,7 @@ const TABS = [
   },
   {
     label: 'System Info',
-    href: '/system-info',
+    href: '/dashboard/system-info',
     icon: (
       <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -51,7 +51,7 @@ const TABS = [
   },
   {
     label: 'Settings',
-    href: '/settings',
+    href: '/dashboard/settings',
     icon: (
       <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -219,7 +219,7 @@ function NavBell({ dropdownSide = 'right' }: { dropdownSide?: 'right' | 'left' }
           </div>
           <div className="px-4 py-2.5 border-t border-slate-100 dark:border-white/[0.06]">
             <Link
-              href="/alerts"
+              href="/dashboard/alerts"
               onClick={() => setOpen(false)}
               className="text-xs font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors"
             >
@@ -352,7 +352,7 @@ function MobileSidebar({
         {/* ── Nav links ── */}
         <nav className="flex-1 flex flex-col gap-1 px-3 pt-4 overflow-y-auto" aria-label="Main navigation">
           {TABS.map((tab) => {
-            const isActive = tab.href === '/' ? pathname === '/' : pathname.startsWith(tab.href);
+            const isActive = tab.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(tab.href);
             return (
               <Link
                 key={tab.href}
@@ -510,7 +510,7 @@ export function Navigation() {
             {/* Tab navigation */}
             <nav aria-label="Main navigation" className="flex items-center gap-0.5">
               {TABS.map((tab) => {
-                const isActive = tab.href === '/' ? pathname === '/' : pathname.startsWith(tab.href);
+                const isActive = tab.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(tab.href);
                 return (
                   <Link
                     key={tab.href}
@@ -535,7 +535,7 @@ export function Navigation() {
 
             {/* Right controls */}
             <div className="flex items-center gap-0.5 shrink-0">
-              <Link href="/settings" className={iconBtn} aria-label="Settings">
+              <Link href="/dashboard/settings" className={iconBtn} aria-label="Settings">
                 <GearIcon />
               </Link>
               <NavBell />
