@@ -39,10 +39,10 @@ export function DeploymentSection() {
   }, []);
 
   return (
-    <section ref={containerRef} className="py-24 px-6 bg-[#050b14] relative z-10">
+    <section ref={containerRef} className="py-24 px-6 bg-slate-50 relative z-10">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-slate-300 leading-tight mb-16">
-          Deployed at the right spots, <strong className="text-teal-400 font-medium">Levee</strong> can help prevent losses like these.
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-slate-700 leading-tight mb-16">
+          Deployed at the right spots, <strong className="text-teal-600 font-medium">Levee</strong> can help prevent losses like these.
         </h2>
 
         <div className="mx-auto w-full max-w-3xl drop-shadow-2xl">

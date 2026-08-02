@@ -2,86 +2,70 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export function BackgroundAtmosphere() {
-  const blobsRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Parallax effect for the background elements
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Tie the Y position of the blobs and grid to scroll, moving at 0.6x speed
-      gsap.to([blobsRef.current, gridRef.current], {
-        y: (i, target) => -ScrollTrigger.maxScroll(window) * 0.4, // Moves slower than scroll (parallax)
-        ease: 'none',
-        scrollTrigger: {
-          trigger: document.body,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: true,
-        }
+      // Gentle floating animation for the glowing orbs
+      gsap.to('.glow-blob-1', {
+        y: '-=100',
+        x: '+=50',
+        duration: 8,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
       });
-    });
+
+      gsap.to('.glow-blob-2', {
+        y: '+=120',
+        x: '-=60',
+        duration: 10,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: -2,
+      });
+
+      gsap.to('.glow-blob-3', {
+        y: '-=80',
+        scale: 1.1,
+        duration: 12,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: -5,
+      });
+
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden bg-gradient-to-b from-[#050b14] to-[#0a1420]">
+    <div ref={containerRef} className="fixed inset-0 pointer-events-none z-0 bg-slate-50 overflow-hidden">
       
-      {/* 1. Subtle Grid Pattern */}
-      <div 
-        ref={gridRef}
-        className="absolute inset-0 w-full h-[200vh] opacity-[0.05]"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, #ffffff 1px, transparent 1px),
-            linear-gradient(to bottom, #ffffff 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px',
-        }}
+      {/* 1. Subtle Noise/Texture Overlay */}
+      <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply" style={{ backgroundImage: 'url("/landing/noise.png")', backgroundRepeat: 'repeat' }}></div>
+
+      {/* 2. Abstract Glowing Orbs (Volumetric Light) */}
+      <div className="glow-blob-1 absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-teal-200/40 blur-[120px] will-change-transform mix-blend-multiply" />
+      <div className="glow-blob-2 absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-cyan-200/40 blur-[140px] will-change-transform mix-blend-multiply" />
+      <div className="glow-blob-3 absolute top-[40%] left-[30%] w-[40vw] h-[40vw] rounded-full bg-emerald-100/40 blur-[100px] will-change-transform mix-blend-multiply" />
+
+      {/* 3. Tech Grid */}
+      <div className="absolute inset-0 opacity-40 mix-blend-multiply" 
+           style={{ 
+             backgroundImage: 'linear-gradient(to right, rgba(148, 163, 184, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(148, 163, 184, 0.1) 1px, transparent 1px)',
+             backgroundSize: '4rem 4rem',
+             maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%)',
+             WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%)',
+           }}
       />
-
-      {/* 2. Ambient Glow Blobs */}
-      <div ref={blobsRef} className="absolute inset-0 w-full h-[200vh] will-change-transform">
-        {/* Top Blob */}
-        <div 
-          className="absolute top-[10%] left-[20%] w-[500px] h-[500px] rounded-full bg-teal-500/20 blur-[120px] will-change-transform mix-blend-screen"
-          style={{ animation: 'float-blob 18s ease-in-out infinite alternate' }}
-        />
-        {/* Middle-Right Blob */}
-        <div 
-          className="absolute top-[40%] right-[10%] w-[600px] h-[600px] rounded-full bg-cyan-600/15 blur-[120px] will-change-transform mix-blend-screen"
-          style={{ animation: 'float-blob 22s ease-in-out infinite alternate-reverse' }}
-        />
-        {/* Bottom-Left Blob */}
-        <div 
-          className="absolute top-[75%] left-[5%] w-[450px] h-[450px] rounded-full bg-teal-600/15 blur-[120px] will-change-transform mix-blend-screen"
-          style={{ animation: 'float-blob 15s ease-in-out infinite alternate' }}
-        />
-      </div>
-
-      {/* 3. Grain Overlay (Fixed, NO PARALLAX) */}
-      <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-          <filter id="noiseFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-        </svg>
-      </div>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes float-blob {
-          0% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(40px, -40px) scale(1.05); }
-          100% { transform: translate(-20px, 30px) scale(0.95); }
-        }
-      `}} />
     </div>
   );
 }

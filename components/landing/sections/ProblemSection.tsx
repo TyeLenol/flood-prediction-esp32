@@ -73,15 +73,15 @@ export function ProblemSection() {
         // Priority 4: Typographic moment for $200m
         if (num1WrapperRef.current) {
           gsap.fromTo(num1WrapperRef.current, 
-            { scale: 3.5, color: '#fff', transformOrigin: 'left center' },
+            { scale: 3.5, color: '#0f172a', transformOrigin: 'left center' },
             {
               scale: 1,
-              color: '#2dd4bf', // teal-400
+              color: '#0d9488', // teal-600
               duration: 2,
               ease: 'elastic.out(1, 0.4)',
               scrollTrigger: {
                 trigger: num1WrapperRef.current,
-                start: 'top 85%',
+                start: 'top 75%',
                 toggleActions: 'play none none reverse'
               }
             }
@@ -116,29 +116,29 @@ export function ProblemSection() {
   }, []);
 
   return (
-    <section ref={containerRef} className="py-32 px-6 relative z-10">
+    <section ref={containerRef} className="py-32 px-6 relative z-10 bg-[radial-gradient(circle,_#f0fdfa_0%,_#f8fafc_100%)]">
       <div className="max-w-4xl mx-auto space-y-8">
         
-        <div className="problem-card bg-[#0a1420]/60 backdrop-blur-md border border-teal-500/15 rounded-3xl p-8 md:p-12 shadow-2xl shadow-black/50 hover:scale-[1.02] transition-transform duration-500 ease-out">
-          <p className="text-3xl md:text-5xl font-light text-slate-300 leading-tight">
-            Ghana loses an estimated <span ref={num1WrapperRef} className="inline-block"><strong className="font-medium whitespace-nowrap text-teal-400" ref={num1Ref}>$200 million</strong></span> every year to flooding — over <strong className="text-teal-400 font-medium whitespace-nowrap" ref={num2Ref}>$1.7 billion</strong> in the past decade alone.
+        <div className="problem-card bg-white/70 backdrop-blur-md border border-slate-200 rounded-3xl p-8 md:p-12 shadow-xl shadow-slate-200/50 hover:scale-[1.02] transition-transform duration-500 ease-out relative z-10 rotate-1 hover:rotate-1">
+          <p className="text-3xl md:text-5xl font-light text-slate-700 leading-tight">
+            Ghana loses an estimated <span ref={num1WrapperRef} className="inline-block relative z-20 drop-shadow-xl bg-teal-100 border border-teal-200 px-4 py-1 rounded-2xl rotate-2 mx-1 shadow-sm"><strong className="font-medium whitespace-nowrap text-teal-600" ref={num1Ref}>$200 million</strong></span> every year to flooding — over <strong className="text-teal-600 font-medium whitespace-nowrap" ref={num2Ref}>$1.7 billion</strong> in the past decade alone.
           </p>
         </div>
 
-        <div className="problem-card bg-[#0a1420]/60 backdrop-blur-md border border-teal-500/15 rounded-3xl p-8 md:p-12 shadow-2xl shadow-black/50 hover:scale-[1.02] transition-transform duration-500 ease-out ml-auto md:w-[85%]">
-          <p className="text-3xl md:text-4xl font-light text-slate-300 leading-tight">
-            More than <strong className="text-teal-400 font-medium whitespace-nowrap" ref={num3Ref}>2 million</strong> people are affected annually.
+        <div className="problem-card bg-white/70 backdrop-blur-md border border-slate-200 rounded-3xl p-8 md:p-12 shadow-xl shadow-slate-200/50 hover:scale-[1.02] transition-transform duration-500 ease-out ml-auto md:w-[85%] -rotate-1 hover:-rotate-1">
+          <p className="text-3xl md:text-4xl font-light text-slate-700 leading-tight">
+            More than <strong className="text-teal-600 font-medium whitespace-nowrap" ref={num3Ref}>2 million</strong> people are affected annually.
           </p>
         </div>
 
-        <div className="problem-card bg-[#0a1420]/60 backdrop-blur-md border border-teal-500/15 rounded-3xl p-8 md:p-12 shadow-2xl shadow-black/50 hover:scale-[1.02] transition-transform duration-500 ease-out mr-auto md:w-[90%]">
-          <p className="text-3xl md:text-4xl font-light text-slate-300 leading-tight">
-            In June 2015, a single flood disaster in Accra claimed over <strong className="text-teal-400 font-medium whitespace-nowrap" ref={num4Ref}>150</strong> lives in one night.
+        <div className="problem-card bg-white/70 backdrop-blur-md border border-slate-200 rounded-3xl p-8 md:p-12 shadow-xl shadow-slate-200/50 hover:scale-[1.02] transition-transform duration-500 ease-out mr-auto md:w-[90%] rotate-2 hover:rotate-2">
+          <p className="text-3xl md:text-4xl font-light text-slate-700 leading-tight">
+            In June 2015, a single flood disaster in Accra claimed over <strong className="text-teal-600 font-medium whitespace-nowrap" ref={num4Ref}>150</strong> lives in one night.
           </p>
         </div>
 
         <div className="text-center">
-          <p className="problem-footnote inline-block text-sm text-slate-500 pt-8 border-t border-teal-500/10 px-8">
+          <p className="problem-footnote inline-block text-sm text-slate-500 pt-8 border-t border-slate-200 px-8">
             (World Bank / MyJoyOnline estimates)
           </p>
         </div>

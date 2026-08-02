@@ -39,7 +39,7 @@ export function LandingPage() {
       <SignalThread />
       <div 
         ref={containerRef} 
-        className="text-slate-200 min-h-screen overflow-x-hidden selection:bg-teal-500/30 font-sans relative z-10"
+        className="text-slate-900 min-h-screen overflow-x-hidden selection:bg-teal-500/30 font-sans relative z-10"
       >
         <HeroSection />
         <ProblemSection />

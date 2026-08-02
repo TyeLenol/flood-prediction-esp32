@@ -32,21 +32,21 @@ export default function GhanaMap() {
   ];
 
   return (
-    <div className="w-full h-[480px] rounded-2xl overflow-hidden border border-white/10 relative z-0">
+    <div className="w-full h-[480px] rounded-2xl overflow-hidden border border-slate-200 relative z-0 shadow-xl shadow-slate-200/50">
       <MapContainer 
         center={center} 
         zoom={6.5} 
         scrollWheelZoom={false}
-        className="w-full h-full bg-[#0a1120]"
+        className="w-full h-full bg-slate-50"
         bounds={bounds}
         maxBounds={bounds}
         maxBoundsViscosity={1.0}
         minZoom={6}
       >
-        {/* Using CartoDB Dark Matter tiles to match the landing page theme */}
+        {/* Using CartoDB Positron tiles to match the light landing page theme */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
 
         {/* Pin 1: Accra */}
