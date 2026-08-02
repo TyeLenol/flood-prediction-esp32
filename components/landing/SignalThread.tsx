@@ -62,7 +62,7 @@ export function SignalThread() {
   }, []);
 
   return (
-    <div ref={containerRef} className="fixed inset-y-0 left-8 md:left-24 w-12 pointer-events-none z-0 mix-blend-screen opacity-40">
+    <div ref={containerRef} className="fixed inset-y-0 left-8 md:left-24 w-12 pointer-events-none z-0 mix-blend-multiply opacity-80">
       <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 10 1000" fill="none">
         <path 
           ref={pathRef}
@@ -72,16 +72,16 @@ export function SignalThread() {
           className="drop-shadow-[0_0_8px_rgba(45,212,191,0.5)]"
         />
         {/* Signal dots */}
-        <circle className="signal-dot w-[3px] h-[3px] fill-teal-400 drop-shadow-[0_0_12px_rgba(45,212,191,1)]" r="1.5" cx="5" cy="0" />
-        <circle className="signal-dot w-[3px] h-[3px] fill-cyan-400 drop-shadow-[0_0_12px_rgba(45,212,191,1)]" r="1.5" cx="5" cy="0" />
+        <circle className="signal-dot w-[3px] h-[3px] fill-teal-500 drop-shadow-[0_0_8px_rgba(15,118,110,0.8)]" r="1.5" cx="5" cy="0" />
+        <circle className="signal-dot w-[3px] h-[3px] fill-cyan-500 drop-shadow-[0_0_8px_rgba(15,118,110,0.8)]" r="1.5" cx="5" cy="0" />
         
         <defs>
           <linearGradient id="signalGradient" x1="0" y1="0" x2="0" y2="1000" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#0f172a" stopOpacity="0" />
-            <stop offset="0.1" stopColor="#2dd4bf" stopOpacity="0.5" />
-            <stop offset="0.5" stopColor="#22d3ee" stopOpacity="1" />
-            <stop offset="0.9" stopColor="#2dd4bf" stopOpacity="0.5" />
-            <stop offset="1" stopColor="#0f172a" stopOpacity="0" />
+            <stop stopColor="#f8fafc" stopOpacity="0" />
+            <stop offset="0.1" stopColor="#2dd4bf" stopOpacity="0.8" />
+            <stop offset="0.5" stopColor="#0ea5e9" stopOpacity="1" />
+            <stop offset="0.9" stopColor="#2dd4bf" stopOpacity="0.8" />
+            <stop offset="1" stopColor="#f8fafc" stopOpacity="0" />
           </linearGradient>
         </defs>
       </svg>
