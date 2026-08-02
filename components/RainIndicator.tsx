@@ -72,8 +72,8 @@ export function RainIndicator({ rainDetected }: { rainDetected: boolean }) {
         )}
       </div>
 
-      <p className="mt-4 text-center font-semibold text-sm">Rain Detected</p>
-      <p className="text-xs text-slate-500 mt-1">
+      <p className="mt-4 text-center font-semibold text-sm text-slate-900 dark:text-slate-50">Rain Detected</p>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
         {rainDetected ? 'Raining' : 'Clear'}
       </p>
     </div>
