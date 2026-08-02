@@ -26,13 +26,17 @@ export function FloodDashboard() {
   const isStale = reading ? (Date.now() - reading.timestamp > 120000) : false; // 2 minutes
 
   const filteredHistory = useMemo(() => {
-    const now = Date.now();
+    if (history.length === 0) return [];
+    // Anchor to the latest timestamp in history, not Date.now().
+    // This ensures time-range filtering works with both live sensor data and
+    // seeded demo data whose timestamps may be static/old.
+    const latestTs = history[history.length - 1].timestamp;
     const rangeMs = {
       '1h': 60 * 60 * 1000,
       '6h': 6 * 60 * 60 * 1000,
       '24h': 24 * 60 * 60 * 1000,
     }[timeRange];
-    return history.filter(h => now - h.timestamp <= rangeMs);
+    return history.filter(h => latestTs - h.timestamp <= rangeMs);
   }, [history, timeRange]);
 
   const alertHistory = useMemo(() => {
@@ -139,7 +143,7 @@ export function FloodDashboard() {
               </div>
             )}
             {/* Status Section */}
-            <div className="mb-8 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-6">
+            <div className="mb-6 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">
@@ -158,7 +162,7 @@ export function FloodDashboard() {
             </div>
 
             {/* Circular Gauges - Water Level Hero Section */}
-            <div className="mb-8 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-8">
+            <div className="mb-6 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-8">
               <div className="flex justify-center">
                 <CircularGauge
                   value={reading.waterLevel}
@@ -174,7 +178,7 @@ export function FloodDashboard() {
             </div>
 
             {/* Gauge and Indicator Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               {/* Soil Moisture */}
               <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-6 flex flex-col justify-center items-center relative overflow-hidden">
                 <div className="absolute top-2 right-2">
@@ -225,7 +229,7 @@ export function FloodDashboard() {
 
             {/* Threshold Information */}
             {thresholds && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div className="bg-yellow-50 dark:bg-yellow-950 rounded-lg border border-yellow-200 dark:border-yellow-800 p-4">
                   <p className="text-sm font-medium text-yellow-900 dark:text-yellow-100">
                     Warning Threshold
@@ -249,7 +253,7 @@ export function FloodDashboard() {
 
             {/* Prediction Section */}
             {(timeToWarning !== null || timeToDanger !== null) && (
-              <div className="mb-8 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+              <div className="mb-6 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-full">
                     <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -269,7 +273,7 @@ export function FloodDashboard() {
             )}
 
             {/* Charts & Controls */}
-            <div className="mb-8">
+            <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">Historical Trends</h2>
                 <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
@@ -288,7 +292,7 @@ export function FloodDashboard() {
                   ))}
                 </div>
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                 <WaterLevelChart data={filteredHistory} thresholds={thresholds} />
                 <RainfallChart data={filteredHistory} />
               </div>
@@ -296,7 +300,7 @@ export function FloodDashboard() {
             </div>
 
             {/* Alert History */}
-            <div className="mb-8 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div className="mb-6 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
               <div className="p-6 border-b border-slate-200 dark:border-slate-700">
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Alert History Log</h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400">Recent threshold breach events</p>
@@ -344,7 +348,7 @@ export function FloodDashboard() {
             </div>
 
             {/* How It Works Section */}
-            <div className="mb-8">
+            <div className="mb-6">
               <details className="group bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
                 <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
                   <div>
@@ -393,7 +397,7 @@ export function FloodDashboard() {
             </div>
 
             {/* Footer */}
-            <footer className="mt-12 pb-8 border-t border-slate-200 dark:border-slate-800 pt-8 text-center">
+            <footer className="mt-8 pb-8 border-t border-slate-200 dark:border-slate-800 pt-8 text-center">
               <div className="flex flex-wrap justify-center gap-4 mb-4">
                 {['ESP32-WROOM', 'JSN-SR04T', 'SIM7600 GSM', 'Firebase RTDB'].map(tech => (
                   <span key={tech} className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-[10px] font-mono text-slate-500 dark:text-slate-400 rounded border border-slate-200 dark:border-slate-700">

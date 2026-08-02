@@ -50,12 +50,12 @@ export function CorrelationChart({ data }: CorrelationChartProps) {
             interval="preserveStartEnd"
           />
           <YAxis
-            yId="left"
+            yAxisId="left"
             label={{ value: 'Water Level (cm)', angle: -90, position: 'insideLeft', fontSize: 12, fill: 'hsl(217, 91%, 60%)' }}
             tick={{ fontSize: 10, fill: 'hsl(217, 91%, 60%)' }}
           />
           <YAxis
-            yId="right"
+            yAxisId="right"
             orientation="right"
             label={{ value: 'Rainfall (mm)', angle: 90, position: 'insideRight', fontSize: 12, fill: 'hsl(200, 95%, 45%)' }}
             tick={{ fontSize: 10, fill: 'hsl(200, 95%, 45%)' }}
@@ -71,7 +71,7 @@ export function CorrelationChart({ data }: CorrelationChartProps) {
           />
           <Legend verticalAlign="top" height={36}/>
           <Line
-            yId="left"
+            yAxisId="left"
             type="monotone"
             dataKey="waterLevel"
             name="Water Level"
@@ -81,7 +81,7 @@ export function CorrelationChart({ data }: CorrelationChartProps) {
             activeDot={{ r: 4 }}
           />
           <Line
-            yId="right"
+            yAxisId="right"
             type="monotone"
             dataKey="rainfall"
             name="Rainfall"

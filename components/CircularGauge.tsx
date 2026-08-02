@@ -136,9 +136,9 @@ export function CircularGauge({
         </svg>
 
         {/* Center text */}
-        <div className="absolute flex flex-col items-center">
+        <div className="absolute flex flex-col items-center z-10 rotate-0">
           <div className={isLarge ? 'text-4xl font-bold' : 'text-2xl font-bold'}>
-            {mounted ? value.toFixed(1) : '—'}
+            {value.toFixed(1)}
           </div>
           <div className={isLarge ? 'text-xs text-slate-500' : 'text-xs text-slate-500'}>
             {unit}
