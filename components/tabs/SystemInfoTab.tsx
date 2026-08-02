@@ -220,7 +220,7 @@ export function SystemInfoTab() {
                 ))}
               </div>
               <p className="text-xs text-slate-400 dark:text-muted-foreground pt-1">
-                Last reading: {new Date(reading.timestamp).toLocaleString()}
+                Last reading: {new Date(reading.timestamp * 1000).toLocaleString()}
               </p>
             </div>
           ) : (
