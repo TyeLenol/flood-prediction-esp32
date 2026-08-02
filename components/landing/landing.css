@@ -1,0 +1,37 @@
+/* Landing page specific styles */
+
+.landing-glow {
+  background: radial-gradient(circle at 100% 0%, rgba(20, 184, 166, 0.15) 0%, transparent 40%);
+}
+
+.map-marker-pulse {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  background-color: #14b8a6; /* teal-500 */
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.map-marker-pulse::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(20, 184, 166, 0.4);
+  border-radius: 50%;
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
