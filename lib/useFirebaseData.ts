@@ -7,8 +7,8 @@ import { database } from './firebase';
 export interface Reading {
   waterLevel: number;
   rainfall: number;
-  humidity: number;
-  temperature: number;
+  soilMoisture: number;
+  rainDetected: boolean;
   status: 'Normal' | 'Warning' | 'Danger';
   timestamp: number;
 }

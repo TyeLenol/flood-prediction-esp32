@@ -1,10 +1,11 @@
 'use client';
 
 import { useFirebaseData } from '@/lib/useFirebaseData';
-import { StatCard } from './StatCard';
 import { StatusBadge } from './StatusBadge';
 import { WaterLevelChart } from './WaterLevelChart';
 import { RainfallChart } from './RainfallChart';
+import { CircularGauge } from './CircularGauge';
+import { RainIndicator } from './RainIndicator';
 
 export function FloodDashboard() {
   const { reading, history, thresholds, loading, error } = useFirebaseData();
@@ -25,8 +26,20 @@ export function FloodDashboard() {
     );
   }
 
+  const getStatusGlow = () => {
+    switch (reading?.status) {
+      case 'Danger':
+        return 'dark:from-red-950/50 dark:to-slate-900';
+      case 'Warning':
+        return 'dark:from-yellow-950/50 dark:to-slate-900';
+      case 'Normal':
+      default:
+        return 'dark:from-green-950/30 dark:to-slate-900';
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+    <main className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 ${reading ? getStatusGlow() : 'dark:from-slate-950 dark:to-slate-900'}`}>
       {/* Header */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -41,9 +54,15 @@ export function FloodDashboard() {
             </div>
             {reading && (
               <div className="text-right">
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Last updated: {new Date(reading.timestamp).toLocaleTimeString()}
-                </p>
+                <div className="flex items-center gap-2 justify-end">
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-xs font-medium text-green-600 dark:text-green-400">Live</span>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Last updated: {new Date(reading.timestamp).toLocaleTimeString()}
+                  </p>
+                </div>
               </div>
             )}
           </div>
@@ -79,28 +98,52 @@ export function FloodDashboard() {
               </div>
             </div>
 
-            {/* Stat Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <StatCard
-                title="Water Level"
-                value={reading.waterLevel}
-                unit="cm"
-              />
-              <StatCard
-                title="Rainfall"
-                value={reading.rainfall}
-                unit="mm"
-              />
-              <StatCard
-                title="Humidity"
-                value={reading.humidity}
-                unit="%"
-              />
-              <StatCard
-                title="Temperature"
-                value={reading.temperature}
-                unit="°C"
-              />
+            {/* Circular Gauges - Water Level Hero Section */}
+            <div className="mb-8 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-8">
+              <div className="flex justify-center">
+                <CircularGauge
+                  value={reading.waterLevel}
+                  max={thresholds?.danger || 200}
+                  unit="cm"
+                  label="Water Level"
+                  color="green-yellow-red"
+                  size="large"
+                  warningLevel={thresholds?.warning}
+                  dangerLevel={thresholds?.danger}
+                />
+              </div>
+            </div>
+
+            {/* Gauge and Indicator Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              {/* Soil Moisture */}
+              <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-6 flex justify-center items-center">
+                <CircularGauge
+                  value={reading.soilMoisture}
+                  max={100}
+                  unit="%"
+                  label="Soil Moisture"
+                  color="teal"
+                  size="small"
+                />
+              </div>
+
+              {/* Rainfall */}
+              <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-6 flex justify-center items-center">
+                <CircularGauge
+                  value={reading.rainfall}
+                  max={50}
+                  unit="mm"
+                  label="Rainfall"
+                  color="blue"
+                  size="small"
+                />
+              </div>
+
+              {/* Rain Detected */}
+              <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-6 flex justify-center items-center">
+                <RainIndicator rainDetected={reading.rainDetected} />
+              </div>
             </div>
 
             {/* Threshold Information */}

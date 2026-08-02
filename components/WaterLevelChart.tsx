@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -47,7 +47,13 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
         Water Level Trend
       </h3>
       <ResponsiveContainer width="100%" height={320}>
-        <LineChart data={chartData} margin={{ top: 5, right: 150, left: 0, bottom: 5 }}>
+        <AreaChart data={chartData} margin={{ top: 5, right: 150, left: 0, bottom: 5 }}>
+          <defs>
+            <linearGradient id="waterGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="hsl(217, 91%, 60%)" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="hsl(217, 91%, 60%)" stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 116, 139, 0.1)" />
           <XAxis
             dataKey="time"
@@ -96,15 +102,16 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
             />
           )}
 
-          <Line
+          <Area
             type="monotone"
             dataKey="waterLevel"
             stroke="hsl(217, 91%, 60%)"
-            dot={false}
+            fill="url(#waterGradient)"
             strokeWidth={2}
             isAnimationActive={true}
+            dot={false}
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );

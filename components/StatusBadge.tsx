@@ -10,7 +10,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
       case 'Warning':
         return 'bg-yellow-100 text-yellow-800 border-yellow-300';
       case 'Danger':
-        return 'bg-red-100 text-red-800 border-red-300';
+        return 'bg-red-100 text-red-800 border-red-300 animate-pulse';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-300';
     }
