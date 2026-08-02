@@ -45,7 +45,10 @@ export function useFirebaseData() {
         readingsRef,
         (snapshot) => {
           if (snapshot.exists()) {
-            setReading(snapshot.val() as Reading);
+            const val = snapshot.val();
+            // DEBUG — remove after confirming timestamp is correct
+            console.log('[FloodWatch] /readings raw value:', val, '| timestamp*1000 →', val?.timestamp ? new Date(val.timestamp * 1000).toLocaleString() : 'no timestamp');
+            setReading(val as Reading);
           }
         },
         (err) => {

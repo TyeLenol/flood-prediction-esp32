@@ -55,17 +55,17 @@ export function Navigation() {
   };
 
   return (
-    /* Outer sticky wrapper — provides the top-spacing that makes the pill "float" */
-    <div className="sticky top-4 z-50 flex justify-center px-4 sm:px-6 pointer-events-none">
+    /* Outer sticky wrapper — full-width semi-opaque band so content never bleeds through */
+    <div className="sticky top-0 z-50 w-full px-4 sm:px-6 py-3 flex justify-center bg-slate-50/80 dark:bg-[oklch(0.09_0.012_240)]/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-white/[0.06] pointer-events-none">
       {/* Floating pill container */}
       <div className="
         pointer-events-auto
         flex items-center gap-3 w-full max-w-5xl
-        bg-white/90 dark:bg-slate-900/90
+        bg-white/[0.97] dark:bg-slate-900/[0.97]
         backdrop-blur-xl
         rounded-2xl
         border border-slate-200/80 dark:border-white/[0.09]
-        shadow-xl shadow-slate-200/60 dark:shadow-black/40
+        shadow-lg shadow-slate-200/60 dark:shadow-black/40
         px-4 py-2.5
         transition-colors duration-200
       ">
