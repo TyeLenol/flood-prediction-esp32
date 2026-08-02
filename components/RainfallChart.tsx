@@ -1,6 +1,5 @@
 'use client';
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import {
   LineChart,
   Line,
@@ -15,13 +14,6 @@ import { HistoryEntry } from '@/lib/useFirebaseData';
 interface RainfallChartProps {
   data: HistoryEntry[];
 }
-
-const chartConfig = {
-  rainfall: {
-    label: 'Rainfall',
-    color: 'hsl(var(--chart-2))',
-  },
-};
 
 export function RainfallChart({ data }: RainfallChartProps) {
   if (data.length === 0) {
@@ -43,30 +35,36 @@ export function RainfallChart({ data }: RainfallChartProps) {
       <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
         Rainfall Trend
       </h3>
-      <ChartContainer config={chartConfig} className="w-full h-80">
-        <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+      <ResponsiveContainer width="100%" height={320}>
+        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 116, 139, 0.1)" />
           <XAxis
             dataKey="time"
-            tick={{ fontSize: 12 }}
-            stroke="var(--muted-foreground)"
+            tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
           <YAxis
             label={{ value: 'Rainfall (mm)', angle: -90, position: 'insideLeft' }}
-            tick={{ fontSize: 12 }}
-            stroke="var(--muted-foreground)"
+            tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
-          <ChartTooltip content={<ChartTooltipContent />} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              border: 'none',
+              borderRadius: '6px',
+              color: 'rgb(248, 250, 252)',
+            }}
+            labelStyle={{ color: 'rgb(248, 250, 252)' }}
+          />
           <Line
             type="monotone"
             dataKey="rainfall"
-            stroke="var(--color-rainfall)"
+            stroke="hsl(199, 89%, 48%)"
             dot={false}
-            isAnimationActive={false}
             strokeWidth={2}
+            isAnimationActive={true}
           />
         </LineChart>
-      </ChartContainer>
+      </ResponsiveContainer>
     </div>
   );
 }

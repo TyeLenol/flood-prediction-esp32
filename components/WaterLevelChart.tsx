@@ -1,6 +1,5 @@
 'use client';
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import {
   LineChart,
   Line,
@@ -17,13 +16,6 @@ interface WaterLevelChartProps {
   data: HistoryEntry[];
   thresholds?: Thresholds | null;
 }
-
-const chartConfig = {
-  waterLevel: {
-    label: 'Water Level',
-    color: 'hsl(var(--chart-1))',
-  },
-};
 
 export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
   if (data.length === 0) {
@@ -45,21 +37,27 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
       <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
         Water Level Trend
       </h3>
-      <ChartContainer config={chartConfig} className="w-full h-80">
-        <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+      <ResponsiveContainer width="100%" height={320}>
+        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 116, 139, 0.1)" />
           <XAxis
             dataKey="time"
-            tick={{ fontSize: 12 }}
-            stroke="var(--muted-foreground)"
+            tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
           <YAxis
             label={{ value: 'Water Level (cm)', angle: -90, position: 'insideLeft' }}
-            tick={{ fontSize: 12 }}
-            stroke="var(--muted-foreground)"
+            tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              border: 'none',
+              borderRadius: '6px',
+              color: 'rgb(248, 250, 252)',
+            }}
+            labelStyle={{ color: 'rgb(248, 250, 252)' }}
+          />
+
           {/* Reference lines for thresholds */}
           {thresholds?.danger && (
             <ReferenceLine
@@ -87,17 +85,17 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
               }}
             />
           )}
-          
+
           <Line
             type="monotone"
             dataKey="waterLevel"
-            stroke="var(--color-waterLevel)"
+            stroke="hsl(217, 91%, 60%)"
             dot={false}
-            isAnimationActive={false}
             strokeWidth={2}
+            isAnimationActive={true}
           />
         </LineChart>
-      </ChartContainer>
+      </ResponsiveContainer>
     </div>
   );
 }
