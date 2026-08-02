@@ -1,5 +1,5 @@
-import { FloodDashboard } from '@/components/FloodDashboard';
+import { OverviewTab } from '@/components/tabs/OverviewTab';
 
 export default function Page() {
-  return <FloodDashboard />;
+  return <OverviewTab />;
 }
