@@ -1,9 +1,9 @@
 import { Space_Grotesk, Inter } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from '@vercel/analytics/react';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { FirebaseDataProvider } from '@/lib/FirebaseDataContext';
-import { Navigation } from '@/components/Navigation';
+import { LayoutShell } from '@/components/LayoutShell';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -75,13 +75,9 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="antialiased min-h-screen bg-background text-foreground">
-        {/* FirebaseDataProvider connects once and persists across all tab routes */}
-        <FirebaseDataProvider>
-          <Navigation />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-            {children}
-          </main>
-        </FirebaseDataProvider>
+        <LayoutShell>
+          {children}
+        </LayoutShell>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
