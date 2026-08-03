@@ -24,12 +24,13 @@ export const metadata: Metadata = {
     'Real-time flood monitoring with water level tracking, rainfall measurement, and environmental sensor data from ESP32 IoT hardware.',
   icons: {
     icon: [
-      { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon-dark-32x32.png',  media: '(prefers-color-scheme: dark)'  },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/icon.svg', type: 'image/svg+xml' },
     ],
     apple: '/apple-icon.png',
   },
+  manifest: '/site.webmanifest',
 };
 
 export const viewport: Viewport = {
