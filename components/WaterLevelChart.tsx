@@ -47,7 +47,7 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
         Water Level Trend
       </h3>
       <ResponsiveContainer width="100%" height={320}>
-        <AreaChart data={chartData} margin={{ top: 5, right: 150, left: 0, bottom: 5 }}>
+        <AreaChart data={chartData} margin={{ top: 20, right: 10, left: 0, bottom: 5 }}>
           <defs>
             <linearGradient id="waterGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="hsl(217, 91%, 60%)" stopOpacity={0.8} />
@@ -61,7 +61,7 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
           />
           <YAxis
             domain={yDomain}
-            label={{ value: 'Water Level (cm)', angle: -90, position: 'insideLeft' }}
+            label={{ value: 'Water Level (cm)', angle: -90, position: 'insideLeft', offset: 15 }}
             tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
           <Tooltip
@@ -82,7 +82,7 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
               strokeDasharray="5 5"
               label={{
                 value: `Danger: ${thresholds.danger}cm`,
-                position: 'right',
+                position: 'insideTopLeft',
                 fill: 'hsl(0, 84%, 60%)',
                 fontSize: 12,
               }}
@@ -95,7 +95,7 @@ export function WaterLevelChart({ data, thresholds }: WaterLevelChartProps) {
               strokeDasharray="5 5"
               label={{
                 value: `Warning: ${thresholds.warning}cm`,
-                position: 'right',
+                position: 'insideTopLeft',
                 fill: 'hsl(38, 92%, 50%)',
                 fontSize: 12,
               }}

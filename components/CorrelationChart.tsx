@@ -42,7 +42,7 @@ export function CorrelationChart({ data }: CorrelationChartProps) {
         </span>
       </div>
       <ResponsiveContainer width="100%" height={320}>
-        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+        <LineChart data={chartData} margin={{ top: 20, right: 10, left: 10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 116, 139, 0.1)" />
           <XAxis
             dataKey="time"
@@ -51,13 +51,13 @@ export function CorrelationChart({ data }: CorrelationChartProps) {
           />
           <YAxis
             yAxisId="left"
-            label={{ value: 'Water Level (cm)', angle: -90, position: 'insideLeft', fontSize: 12, fill: 'hsl(217, 91%, 60%)' }}
+            label={{ value: 'Water Level (cm)', angle: -90, position: 'insideLeft', offset: 15, fontSize: 12, fill: 'hsl(217, 91%, 60%)' }}
             tick={{ fontSize: 10, fill: 'hsl(217, 91%, 60%)' }}
           />
           <YAxis
             yAxisId="right"
             orientation="right"
-            label={{ value: 'Rainfall (mm)', angle: 90, position: 'insideRight', fontSize: 12, fill: 'hsl(200, 95%, 45%)' }}
+            label={{ value: 'Rainfall (mm)', angle: 90, position: 'insideRight', offset: 15, fontSize: 12, fill: 'hsl(200, 95%, 45%)' }}
             tick={{ fontSize: 10, fill: 'hsl(200, 95%, 45%)' }}
           />
           <Tooltip

@@ -307,7 +307,7 @@ export function OverviewTab() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in-up stagger-3">
 
         {/* Soil Moisture */}
-        <Card className="p-6 flex flex-col items-center relative overflow-hidden">
+        <Card className="p-6 flex flex-col items-center relative">
           <div className="absolute top-3 right-3">
             <span className="text-[10px] font-medium text-slate-400 dark:text-muted-foreground bg-slate-50 dark:bg-white/[0.05] px-1.5 py-0.5 rounded border border-slate-200 dark:border-white/[0.06]">
               Active
@@ -331,7 +331,7 @@ export function OverviewTab() {
         </Card>
 
         {/* Rainfall */}
-        <Card className="p-6 flex flex-col items-center relative overflow-hidden">
+        <Card className="p-6 flex flex-col items-center relative">
           <div className="absolute top-3 right-3">
             <span className="text-[10px] font-medium text-slate-400 dark:text-muted-foreground bg-slate-50 dark:bg-white/[0.05] px-1.5 py-0.5 rounded border border-slate-200 dark:border-white/[0.06]">
               Active
@@ -355,7 +355,7 @@ export function OverviewTab() {
         </Card>
 
         {/* Rain Detected */}
-        <Card className="p-6 flex flex-col items-center relative overflow-hidden">
+        <Card className="p-6 flex flex-col items-center relative">
           <div className="absolute top-3 right-3">
             <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${
               reading.rainDetected
