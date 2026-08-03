@@ -300,6 +300,7 @@ export function LandingPage() {
             <iframe
               src="https://app.cirkitdesigner.com/project/015e1989-9bc9-4fae-a0c5-0013a998343f?view=interactive_preview"
               className="absolute top-0 left-0 w-full h-full border-none"
+              loading="lazy"
               allowFullScreen
             />
           </div>
