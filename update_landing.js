@@ -116,7 +116,7 @@ export function LandingPage() {
         <div className="max-w-4xl mx-auto">
           <div className="space-y-12">
             <h2 ref={addToFadeRefs} className="text-3xl md:text-5xl font-light text-slate-900 dark:text-white tracking-[-0.02em] leading-tight">
-              Ghana loses an estimated <span className="text-teal-600 dark:text-teal-400 font-medium">$200 million every year</span> to flooding &mdash; over $1.7 billion in the past decade alone.
+              Ghana loses an estimated <span className="text-teal-600 dark:text-teal-400 font-medium">$200 million every year </span> to flooding &mdash; over $1.7 billion in the past decade alone.
             </h2>
             <h2 ref={addToFadeRefs} className="text-3xl md:text-5xl font-light text-slate-700 dark:text-slate-300 tracking-[-0.02em] leading-tight">
               More than <span className="text-teal-600 dark:text-teal-400 font-medium">2 million people</span> are affected annually.
