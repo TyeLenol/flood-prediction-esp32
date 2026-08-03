@@ -49,7 +49,7 @@ export function RainfallChart({ data }: RainfallChartProps) {
             tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
           <YAxis
-            label={{ value: 'Rainfall (mm)', angle: -90, position: 'insideLeft' }}
+            label={{ value: 'Rainfall (mm)', angle: -90, position: 'insideLeft', offset: 15 }}
             tick={{ fontSize: 12, fill: 'rgb(100, 116, 139)' }}
           />
           <Tooltip

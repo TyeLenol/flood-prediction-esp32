@@ -242,7 +242,7 @@ export function SettingsTab() {
           <p className="text-xs text-slate-500 dark:text-muted-foreground">
             Enter decimal-degree coordinates for the monitoring station. Used for map display only — does not affect sensor readings.
           </p>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field
               id="latitude"
               label="Latitude"
@@ -299,7 +299,7 @@ export function SettingsTab() {
           <p className="text-xs text-slate-500 dark:text-muted-foreground">
             Water level thresholds (cm) that trigger Warning and Danger status changes. Warning must be lower than Danger.
           </p>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field
               id="warning-level"
               label="Warning Level"
