@@ -26,18 +26,24 @@ export function calculateTimeToThreshold(
   const lastLevel = recentData[recentData.length - 1].waterLevel;
   if (lastLevel - firstLevel < 0.5) return null;
 
-  // Simple average rate-of-change (x = time in minutes, y = water level).
-  // Skip intervals with timestamps < 30 seconds apart — these can inflate
-  // the rate to near-infinity, causing ETA to collapse to ~0 minutes.
   let totalRate = 0;
   let intervals = 0;
 
   for (let i = 1; i < recentData.length; i++) {
-    const timeDiff = (recentData[i].timestamp - recentData[i - 1].timestamp) / 60; // seconds → minutes
+    const t1 = recentData[i - 1].timestamp;
+    const t2 = recentData[i].timestamp;
+    
+    // Auto-detect seconds vs milliseconds
+    const t1Ms = t1 > 1000000000000 ? t1 : t1 * 1000;
+    const t2Ms = t2 > 1000000000000 ? t2 : t2 * 1000;
+
+    const timeDiffMinutes = (t2Ms - t1Ms) / 60000; // ms → minutes
     const levelDiff = recentData[i].waterLevel - recentData[i - 1].waterLevel;
 
-    if (timeDiff >= 0.5) { // enforce ≥ 30-second minimum between readings
-      totalRate += levelDiff / timeDiff;
+    // Enforce a small minimum interval (e.g. 3 seconds) to avoid division by zero
+    // or artificially massive rates from rapid bursts
+    if (timeDiffMinutes >= 0.05) { 
+      totalRate += levelDiff / timeDiffMinutes;
       intervals++;
     }
   }
@@ -46,7 +52,7 @@ export function calculateTimeToThreshold(
 
   const avgRate = totalRate / intervals;
 
-  // Water level must be rising at a meaningful pace
+  // Water level must be rising at a meaningful pace (cm per minute)
   if (avgRate <= 0.01) return null;
 
   const remainingLevel = threshold - currentLevel;
