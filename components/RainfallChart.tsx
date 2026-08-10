@@ -39,8 +39,8 @@ export function RainfallChart({ data }: RainfallChartProps) {
         <AreaChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
           <defs>
             <linearGradient id="rainfallGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="hsl(199, 89%, 48%)" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="hsl(199, 89%, 48%)" stopOpacity={0.1} />
+              <stop offset="5%" stopColor="hsl(280, 85%, 60%)" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="hsl(280, 85%, 60%)" stopOpacity={0.1} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 116, 139, 0.1)" />
@@ -64,7 +64,7 @@ export function RainfallChart({ data }: RainfallChartProps) {
           <Area
             type="monotone"
             dataKey="rainfall"
-            stroke="hsl(199, 89%, 48%)"
+            stroke="hsl(280, 85%, 60%)"
             fill="url(#rainfallGradient)"
             strokeWidth={2}
             isAnimationActive={true}
