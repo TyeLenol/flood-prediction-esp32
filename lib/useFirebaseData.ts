@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ref, onValue, off } from 'firebase/database';
-import { database } from './firebase';
+import { ref, onValue } from 'firebase/database';
+import { database, isFirebaseConfigured } from './firebase';
 
 export interface Reading {
   waterLevel: number;
@@ -38,6 +38,12 @@ export function useFirebaseData() {
   const [error, setError]               = useState<string | null>(null);
 
   useEffect(() => {
+    if (!isFirebaseConfigured || !database) {
+      setError('Firebase is not configured. Copy .env.example to .env.local and fill in your project values.');
+      setLoading(false);
+      return;
+    }
+
     try {
       // Listen to current readings
       const readingsRef = ref(database, 'readings');
@@ -45,10 +51,7 @@ export function useFirebaseData() {
         readingsRef,
         (snapshot) => {
           if (snapshot.exists()) {
-            const val = snapshot.val();
-            // DEBUG — remove after confirming timestamp is correct
-            console.log('[Levee] /readings raw value:', val, '| timestamp*1000 →', val?.timestamp ? new Date(val.timestamp * 1000).toLocaleString() : 'no timestamp');
-            setReading(val as Reading);
+            setReading(snapshot.val() as Reading);
           }
         },
         (err) => {
@@ -92,8 +95,8 @@ export function useFirebaseData() {
             const data = snapshot.val();
             // Handle both formats: {warning, danger} and {warningLevel, dangerLevel}
             const thresholdData: Thresholds = {
-              warning: data.warning || data.warningLevel,
-              danger: data.danger || data.dangerLevel,
+              warning: data.warning ?? data.warningLevel,
+              danger: data.danger ?? data.dangerLevel,
             };
             setThresholds(thresholdData);
           }
@@ -123,10 +126,10 @@ export function useFirebaseData() {
 
       // Cleanup subscriptions
       return () => {
-        off(readingsRef,    'value', unsubscribeReadings);
-        off(historyRef,     'value', unsubscribeHistory);
-        off(thresholdsRef,  'value', unsubscribeThresholds);
-        off(deviceRef,      'value', unsubscribeDevice);
+        unsubscribeReadings();
+        unsubscribeHistory();
+        unsubscribeThresholds();
+        unsubscribeDevice();
       };
     } catch (err) {
       setError(`Error initializing Firebase: ${err}`);

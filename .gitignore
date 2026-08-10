@@ -9,6 +9,9 @@ __v0_jsx-dev-runtime.ts
 # Environment variables
 .env*.local
 
+# ESP32 firmware secrets (Wi-Fi/Firebase) — copy secrets.h.example instead
+esp32-firmware/**/secrets.h
+
 # Common ignores
 node_modules
 .next/

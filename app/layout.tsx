@@ -2,7 +2,6 @@ import { Space_Grotesk, Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { FirebaseDataProvider } from '@/lib/FirebaseDataContext';
 import { LayoutShell } from '@/components/LayoutShell';
 
 const spaceGrotesk = Space_Grotesk({

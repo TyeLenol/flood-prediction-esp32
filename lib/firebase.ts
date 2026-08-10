@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getDatabase, type Database } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,6 +12,24 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const database = getDatabase(app);
+// Firebase can't determine a database URL without a project ID, and throws
+// synchronously from getDatabase() in that case — which would otherwise crash
+// every SSR render when .env.local isn't set up yet, instead of failing
+// gracefully in the UI.
+export const isFirebaseConfigured = Boolean(
+  firebaseConfig.projectId && firebaseConfig.databaseURL
+);
+
+let app: FirebaseApp | null = null;
+let database: Database | null = null;
+
+if (isFirebaseConfigured) {
+  app = initializeApp(firebaseConfig);
+  database = getDatabase(app);
+} else {
+  console.warn(
+    '[Levee] Firebase is not configured — copy .env.example to .env.local and fill in your project values.'
+  );
+}
+
+export { app, database };

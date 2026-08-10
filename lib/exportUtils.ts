@@ -25,4 +25,5 @@ export function exportToCSV(data: HistoryEntry[]) {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }

@@ -6,10 +6,18 @@ import { database } from './firebase';
  * from firebase.ts — no new connection is created.
  */
 
+function requireDatabase() {
+  if (!database) {
+    throw new Error('Firebase is not configured. Copy .env.example to .env.local and fill in your project values.');
+  }
+  return database;
+}
+
 /** Save device GPS/map coordinates */
 export async function saveDeviceLocation(lat: number, lng: number): Promise<void> {
-  await set(ref(database, 'device/latitude'),  lat);
-  await set(ref(database, 'device/longitude'), lng);
+  const db = requireDatabase();
+  await set(ref(db, 'device/latitude'),  lat);
+  await set(ref(db, 'device/longitude'), lng);
 }
 
 /**
@@ -18,8 +26,9 @@ export async function saveDeviceLocation(lat: number, lng: number): Promise<void
  * so the existing listener (which accepts either) stays compatible.
  */
 export async function saveThresholds(warning: number, danger: number): Promise<void> {
-  await set(ref(database, 'thresholds/warning'),      warning);
-  await set(ref(database, 'thresholds/danger'),       danger);
-  await set(ref(database, 'thresholds/warningLevel'), warning);
-  await set(ref(database, 'thresholds/dangerLevel'),  danger);
+  const db = requireDatabase();
+  await set(ref(db, 'thresholds/warning'),      warning);
+  await set(ref(db, 'thresholds/danger'),       danger);
+  await set(ref(db, 'thresholds/warningLevel'), warning);
+  await set(ref(db, 'thresholds/dangerLevel'),  danger);
 }

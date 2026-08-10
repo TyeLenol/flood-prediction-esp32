@@ -14,9 +14,9 @@ const LeafletMap = dynamic(() => import('@/components/LeafletMap'), {
   ),
 });
 
-/* ── Default map center (Lagos, Nigeria — adjust to your locale) ─────────── */
-const DEFAULT_LAT = 6.5244;
-const DEFAULT_LNG = 3.3792;
+/* ── Default map center (Accra, Ghana — adjust to your locale) ────────────── */
+const DEFAULT_LAT = 5.6037;
+const DEFAULT_LNG = -0.1870;
 
 /* ── Reusable form field ─────────────────────────────────────────────────── */
 function Field({
@@ -158,8 +158,16 @@ export function SettingsTab() {
   const handleSaveLocation = async () => {
     const parsedLat = parseFloat(lat);
     const parsedLng = parseFloat(lng);
-    if (isNaN(parsedLat) || isNaN(parsedLng)) return;
-    if (parsedLat < -90 || parsedLat > 90 || parsedLng < -180 || parsedLng > 180) return;
+    const isValid =
+      !isNaN(parsedLat) && !isNaN(parsedLng) &&
+      parsedLat >= -90 && parsedLat <= 90 &&
+      parsedLng >= -180 && parsedLng <= 180;
+
+    if (!isValid) {
+      setLocSave('error');
+      setTimeout(() => setLocSave('idle'), 4000);
+      return;
+    }
 
     setLocSave('saving');
     try {
@@ -236,7 +244,6 @@ export function SettingsTab() {
       <Section
         title="Device Location"
         tooltip="This device does not have GPS hardware. Location is set manually and should be updated if the sensor node is moved to a new site."
-        aria-labelledby="location-heading"
       >
         <div className="animate-fade-in-up stagger-2 space-y-4">
           <p className="text-xs text-slate-500 dark:text-muted-foreground">

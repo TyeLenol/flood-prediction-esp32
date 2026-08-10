@@ -126,6 +126,7 @@ const ARCHITECTURE_SECTIONS = [
 
 export function SystemInfoTab() {
   const { reading, loading } = useFirebaseDataContext();
+  const isStale = reading ? Date.now() - reading.timestamp * 1000 > 120_000 : false;
 
   return (
     <div className="space-y-8">
@@ -197,9 +198,9 @@ export function SystemInfoTab() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className={`w-2 h-2 rounded-full ${isStale ? 'bg-amber-500' : 'bg-emerald-400 animate-pulse'}`} />
                   <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    All Sensors Online
+                    {isStale ? 'Last Known Sensor Data' : 'All Sensors Online'}
                   </span>
                 </div>
                 <span className="text-xs text-slate-400 dark:text-muted-foreground">
