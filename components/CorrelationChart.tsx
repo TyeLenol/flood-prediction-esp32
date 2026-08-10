@@ -57,8 +57,8 @@ export function CorrelationChart({ data }: CorrelationChartProps) {
           <YAxis
             yAxisId="right"
             orientation="right"
-            label={{ value: 'Rainfall (mm)', angle: 90, position: 'insideRight', offset: 15, fontSize: 12, fill: 'hsl(200, 95%, 45%)' }}
-            tick={{ fontSize: 10, fill: 'hsl(200, 95%, 45%)' }}
+            label={{ value: 'Rainfall (mm)', angle: 90, position: 'insideRight', offset: 15, fontSize: 12, fill: 'hsl(280, 85%, 60%)' }}
+            tick={{ fontSize: 10, fill: 'hsl(280, 85%, 60%)' }}
           />
           <Tooltip
             contentStyle={{
@@ -85,7 +85,7 @@ export function CorrelationChart({ data }: CorrelationChartProps) {
             type="monotone"
             dataKey="rainfall"
             name="Rainfall"
-            stroke="hsl(200, 95%, 45%)"
+            stroke="hsl(280, 85%, 60%)"
             strokeWidth={2}
             dot={false}
             activeDot={{ r: 4 }}

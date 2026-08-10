@@ -133,10 +133,11 @@ function StatusMessage({ state }: { state: SaveState }) {
 
 export function SettingsTab() {
   const { thresholds, deviceLocation } = useFirebaseDataContext();
+  const DEFAULT_LAT = 6.6745;
+  const DEFAULT_LNG = -1.5716;
 
-  /* ── Location state ── */
-  const [lat,    setLat]    = useState('');
-  const [lng,    setLng]    = useState('');
+  const [lat, setLat] = useState(String(DEFAULT_LAT));
+  const [lng, setLng] = useState(String(DEFAULT_LNG));
   const [locSave, setLocSave] = useState<SaveState>('idle');
 
   // Map display coordinates — committed on Save, not on every keystroke
