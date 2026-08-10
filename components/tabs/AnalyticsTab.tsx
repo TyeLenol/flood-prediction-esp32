@@ -189,6 +189,7 @@ export function AnalyticsTab() {
         open={exportOpen}
         onClose={() => setExportOpen(false)}
         data={history}
+        thresholds={thresholds}
         defaultRange={timeRange}
       />
 

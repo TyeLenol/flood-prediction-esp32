@@ -201,6 +201,7 @@ export function OverviewTab() {
         open={exportOpen}
         onClose={() => setExportOpen(false)}
         data={history}
+        thresholds={thresholds}
         defaultRange="24h"
       />
 

@@ -8,12 +8,13 @@ import {
   type ExportField,
   type ExportRange,
 } from '@/lib/exportUtils';
-import type { HistoryEntry } from '@/lib/FirebaseDataContext';
+import type { HistoryEntry, Thresholds } from '@/lib/FirebaseDataContext';
 
 interface ExportModalProps {
   open: boolean;
   onClose: () => void;
   data: HistoryEntry[];
+  thresholds?: Thresholds | null;
   defaultRange?: ExportRange;
 }
 
@@ -63,10 +64,10 @@ const FORMAT_OPTIONS: { value: ExportFormat; label: string; icon: React.ReactNod
   },
 ];
 
-export function ExportModal({ open, onClose, data, defaultRange = '6h' }: ExportModalProps) {
+export function ExportModal({ open, onClose, data, thresholds, defaultRange = '6h' }: ExportModalProps) {
   const [range,  setRange]  = useState<ExportRange>(defaultRange);
   const [fields, setFields] = useState<Set<ExportField>>(
-    new Set(['waterLevel', 'rainfall'])
+    new Set(['timestamp', 'waterLevel', 'rainfall'])
   );
   const [format, setFormat] = useState<ExportFormat>('csv');
 
@@ -74,7 +75,7 @@ export function ExportModal({ open, onClose, data, defaultRange = '6h' }: Export
   useEffect(() => {
     if (open) {
       setRange(defaultRange);
-      setFields(new Set(['waterLevel', 'rainfall']));
+      setFields(new Set(['timestamp', 'waterLevel', 'rainfall']));
       setFormat('csv');
     }
   }, [open, defaultRange]);
@@ -88,6 +89,7 @@ export function ExportModal({ open, onClose, data, defaultRange = '6h' }: Export
   }, [open, onClose]);
 
   const toggleField = useCallback((f: ExportField) => {
+    if (f === 'timestamp') return; // Timestamp is locked
     setFields(prev => {
       const next = new Set(prev);
       next.has(f) ? next.delete(f) : next.add(f);
@@ -99,7 +101,7 @@ export function ExportModal({ open, onClose, data, defaultRange = '6h' }: Export
   const canExport    = fields.size > 0 && previewCount > 0;
 
   const handleExport = () => {
-    exportData(data, { range, fields: Array.from(fields), format });
+    exportData(data, { range, fields: Array.from(fields), format }, thresholds);
     onClose();
   };
 
@@ -173,20 +175,27 @@ export function ExportModal({ open, onClose, data, defaultRange = '6h' }: Export
             <div className="space-y-2">
               {FIELD_OPTIONS.map(opt => {
                 const checked = fields.has(opt.value);
+                const isLocked = opt.value === 'timestamp';
                 return (
                   <button
                     key={opt.value}
                     onClick={() => toggleField(opt.value)}
+                    disabled={isLocked}
                     className={`
                       w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all
-                      ${checked
+                      ${checked && !isLocked
                         ? 'bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800/50'
-                        : 'bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] opacity-60'}
+                        : isLocked 
+                          ? 'bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] cursor-not-allowed opacity-80'
+                          : 'bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] opacity-60'
+                      }
                     `}
                   >
                     <span className={`
                       w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-colors
-                      ${checked ? 'bg-teal-500 border-teal-500' : 'border-slate-300 dark:border-slate-600'}
+                      ${checked 
+                        ? (isLocked ? 'bg-slate-400 border-slate-400 dark:bg-slate-600 dark:border-slate-600' : 'bg-teal-500 border-teal-500') 
+                        : 'border-slate-300 dark:border-slate-600'}
                     `}>
                       {checked && (
                         <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -194,10 +203,21 @@ export function ExportModal({ open, onClose, data, defaultRange = '6h' }: Export
                         </svg>
                       )}
                     </span>
-                    <div>
-                      <p className={`text-sm font-medium ${checked ? 'text-teal-800 dark:text-teal-200' : 'text-slate-600 dark:text-slate-400'}`}>
-                        {opt.label}
-                      </p>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <p className={`text-sm font-medium ${
+                          checked && !isLocked ? 'text-teal-800 dark:text-teal-200' 
+                          : isLocked ? 'text-slate-500 dark:text-slate-400'
+                          : 'text-slate-600 dark:text-slate-400'
+                        }`}>
+                          {opt.label}
+                        </p>
+                        {isLocked && (
+                          <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
+                            Required
+                          </span>
+                        )}
+                      </div>
                       <p className="text-[10px] text-slate-400 dark:text-muted-foreground">{opt.sub}</p>
                     </div>
                   </button>
