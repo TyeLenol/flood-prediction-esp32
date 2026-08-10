@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { CircularGauge } from '@/components/CircularGauge';
 import { RainIndicator } from '@/components/RainIndicator';
 import { WaterLevelChart } from '@/components/WaterLevelChart';
@@ -8,7 +8,7 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { InfoTooltip } from '@/components/InfoTooltip';
 import { calculateTimeToThreshold } from '@/lib/predictionUtils';
 import { useFirebaseDataContext } from '@/lib/FirebaseDataContext';
-import { exportToCSV } from '@/lib/exportUtils';
+import { ExportModal } from '@/components/ExportModal';
 
 /* ── Skeleton placeholders ─────────────────────────────────────────────────── */
 
@@ -124,6 +124,7 @@ function LiveDot({ stale }: { stale: boolean }) {
 
 export function OverviewTab() {
   const { reading, history, thresholds, loading, error } = useFirebaseDataContext();
+  const [exportOpen, setExportOpen] = useState(false);
 
   const isStale = reading ? Date.now() - reading.timestamp * 1000 > 120_000 : false;
 
@@ -165,7 +166,8 @@ export function OverviewTab() {
             <LiveDot stale={isStale} />
             <StatusBadge status={reading.status} />
             <button
-              onClick={() => exportToCSV(history)}
+              onClick={() => setExportOpen(true)}
+              disabled={history.length === 0}
               className="
                 text-xs px-3 py-1.5 rounded-lg
                 bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.07] dark:hover:bg-white/[0.12]
@@ -174,13 +176,14 @@ export function OverviewTab() {
                 flex items-center gap-1.5 transition-colors
                 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500
                 active:scale-95
+                disabled:opacity-40 disabled:cursor-not-allowed
               "
             >
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                   strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              Export CSV
+              Export
             </button>
           </div>
         </div>
@@ -193,6 +196,13 @@ export function OverviewTab() {
           )}
         </p>
       </Card>
+
+      <ExportModal
+        open={exportOpen}
+        onClose={() => setExportOpen(false)}
+        data={history}
+        defaultRange="24h"
+      />
 
       {/* ② Main grid: Hero gauge (2/3) + Sidebar (1/3) ─────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in-up stagger-2">

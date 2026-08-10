@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, query, limitToLast } from 'firebase/database';
 import { database, isFirebaseConfigured } from './firebase';
 
 export interface Reading {
@@ -60,8 +60,10 @@ export function useFirebaseData() {
         }
       );
 
-      // Listen to history
-      const historyRef = ref(database, 'history');
+      // Listen to history — limitToLast(2880) fetches only the last 24 h of readings
+      // server-side (2880 × 30-second interval = 86 400 s = 24 h).
+      // This keeps bandwidth low while making the 1 h / 6 h / 24 h filters meaningful.
+      const historyRef = query(ref(database, 'history'), limitToLast(2880));
       const unsubscribeHistory = onValue(
         historyRef,
         (snapshot) => {
@@ -74,7 +76,6 @@ export function useFirebaseData() {
             setHistory(
               historyArray
                 .sort((a: any, b: any) => a.timestamp - b.timestamp)
-                .slice(-100) // Keep last 100 entries
             );
           }
           setLoading(false);

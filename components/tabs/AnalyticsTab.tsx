@@ -5,6 +5,7 @@ import { useFirebaseDataContext } from '@/lib/FirebaseDataContext';
 import { WaterLevelChart } from '@/components/WaterLevelChart';
 import { RainfallChart } from '@/components/RainfallChart';
 import { CorrelationChart } from '@/components/CorrelationChart';
+import { ExportModal } from '@/components/ExportModal';
 import type { HistoryEntry } from '@/lib/FirebaseDataContext';
 
 /* ── Skeletons ──────────────────────────────────────────────────────────────── */
@@ -114,6 +115,7 @@ function TimeRangeSelector({
 export function AnalyticsTab() {
   const { history, thresholds, loading, error } = useFirebaseDataContext();
   const [timeRange, setTimeRange] = useState<TimeRange>('6h');
+  const [exportOpen, setExportOpen] = useState(false);
 
   /* Filtered history for time-range charts.
      Timestamps are Unix seconds, so compare deltas in seconds. */
@@ -154,13 +156,41 @@ export function AnalyticsTab() {
   return (
     <div className="space-y-6">
 
-      {/* Page title */}
-      <div className="animate-fade-in-up stagger-1">
-        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-50">Analytics</h1>
-        <p className="text-sm text-slate-500 dark:text-muted-foreground mt-0.5">
-          Historical trends and sensor correlation · {stats?.sampleCount ?? 0} readings in database
-        </p>
+      {/* Page title + export button */}
+      <div className="flex items-start justify-between animate-fade-in-up stagger-1">
+        <div>
+          <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-50">Analytics</h1>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground mt-0.5">
+            Historical trends and sensor correlation · {stats?.sampleCount ?? 0} readings in database
+          </p>
+        </div>
+        <button
+          onClick={() => setExportOpen(true)}
+          disabled={!history.length}
+          className="
+            flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium
+            bg-slate-100 dark:bg-white/[0.06]
+            text-slate-700 dark:text-slate-300
+            hover:bg-slate-200 dark:hover:bg-white/[0.10]
+            disabled:opacity-40 disabled:cursor-not-allowed
+            border border-slate-200 dark:border-white/[0.07]
+            transition-colors
+          "
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Export
+        </button>
       </div>
+
+      <ExportModal
+        open={exportOpen}
+        onClose={() => setExportOpen(false)}
+        data={history}
+        defaultRange={timeRange}
+      />
 
       {/* Stat callout cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 animate-fade-in-up stagger-2">

@@ -1,29 +1,146 @@
 import { HistoryEntry } from './useFirebaseData';
 
-export function exportToCSV(data: HistoryEntry[]) {
-  if (data.length === 0) return;
+export type ExportFormat = 'csv' | 'tsv' | 'pdf';
+export type ExportField  = 'timestamp' | 'waterLevel' | 'rainfall';
+export type ExportRange  = '1h' | '6h' | '24h' | 'all';
 
-  const headers = ['Timestamp', 'Date', 'Water Level (cm)', 'Rainfall (mm)'];
+export interface ExportOptions {
+  range:  ExportRange;
+  fields: ExportField[];
+  format: ExportFormat;
+}
+
+/* ── Time filtering ──────────────────────────────────────────────────────── */
+
+export function filterByRange(data: HistoryEntry[], range: ExportRange): HistoryEntry[] {
+  if (range === 'all' || data.length === 0) return data;
+  const latestTs = data[data.length - 1].timestamp;
+  const rangeSec: Record<Exclude<ExportRange, 'all'>, number> = {
+    '1h':   1 * 60 * 60,
+    '6h':   6 * 60 * 60,
+    '24h': 24 * 60 * 60,
+  };
+  return data.filter(h => latestTs - h.timestamp <= rangeSec[range]);
+}
+
+/* ── Column helpers ──────────────────────────────────────────────────────── */
+
+const FIELD_LABELS: Record<ExportField, string> = {
+  timestamp:  'Timestamp (Unix)',
+  waterLevel: 'Water Level (cm)',
+  rainfall:   'Rainfall (mm)',
+};
+
+function buildRows(data: HistoryEntry[], fields: ExportField[]): string[][] {
+  const headers = [
+    'Date / Time',
+    ...fields.map(f => FIELD_LABELS[f]),
+  ];
   const rows = data.map(entry => [
-    entry.timestamp,
     new Date(entry.timestamp * 1000).toLocaleString(),
-    entry.waterLevel,
-    entry.rainfall
+    ...fields.map(f => {
+      if (f === 'timestamp')  return String(entry.timestamp);
+      if (f === 'waterLevel') return entry.waterLevel.toFixed(2);
+      if (f === 'rainfall')   return entry.rainfall.toFixed(2);
+      return '';
+    }),
   ]);
+  return [headers, ...rows];
+}
 
-  const csvContent = [
-    headers.join(','),
-    ...rows.map(row => row.join(','))
-  ].join('\n');
+/* ── Download helper ─────────────────────────────────────────────────────── */
 
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.setAttribute('href', url);
-  link.setAttribute('download', `flood_data_${new Date().toISOString().split('T')[0]}.csv`);
-  link.style.visibility = 'hidden';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+function downloadBlob(content: string, filename: string, mime: string) {
+  const blob = new Blob([content], { type: mime });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+/* ── CSV ─────────────────────────────────────────────────────────────────── */
+
+function exportCSV(rows: string[][], dateStr: string) {
+  const content = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n');
+  downloadBlob(content, `levee_data_${dateStr}.csv`, 'text/csv;charset=utf-8;');
+}
+
+/* ── TSV ─────────────────────────────────────────────────────────────────── */
+
+function exportTSV(rows: string[][], dateStr: string) {
+  const content = rows.map(r => r.join('\t')).join('\n');
+  downloadBlob(content, `levee_data_${dateStr}.tsv`, 'text/tab-separated-values;charset=utf-8;');
+}
+
+/* ── PDF (browser print) ─────────────────────────────────────────────────── */
+
+function exportPDF(rows: string[][], dateStr: string, range: ExportRange) {
+  const rangeLabel: Record<ExportRange, string> = {
+    '1h': 'Last 1 Hour', '6h': 'Last 6 Hours',
+    '24h': 'Last 24 Hours', 'all': 'All Data',
+  };
+  const headerRow = rows[0];
+  const dataRows  = rows.slice(1);
+  const tableRows = dataRows.map(row =>
+    `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`
+  ).join('');
+
+  const html = `<!DOCTYPE html>
+<html><head>
+  <meta charset="utf-8"/>
+  <title>Levee Export — ${dateStr}</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;color:#1e293b;padding:32px}
+    h1{font-size:20px;font-weight:700;margin-bottom:4px}
+    p.meta{color:#64748b;font-size:11px;margin-bottom:24px}
+    table{width:100%;border-collapse:collapse}
+    thead tr{background:#f1f5f9}
+    th{text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#475569;border-bottom:2px solid #e2e8f0}
+    td{padding:7px 12px;border-bottom:1px solid #f1f5f9;color:#334155}
+    tr:last-child td{border-bottom:none}
+    .footer{margin-top:24px;font-size:10px;color:#94a3b8}
+  </style>
+</head><body>
+  <h1>Levee — Flood Monitoring Export</h1>
+  <p class="meta">${rangeLabel[range]} · Exported ${new Date().toLocaleString()} · ${dataRows.length} readings</p>
+  <table>
+    <thead><tr>${headerRow.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>${tableRows}</tbody>
+  </table>
+  <p class="footer">Generated by Levee Flood Monitoring System · flood-prediction-esp32</p>
+</body></html>`;
+
+  const w = window.open('', '_blank', 'width=900,height=700');
+  if (!w) return;
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(() => { w.print(); w.close(); }, 300);
+}
+
+/* ── Main export function ────────────────────────────────────────────────── */
+
+export function exportData(data: HistoryEntry[], options: ExportOptions) {
+  const { range, fields, format } = options;
+  if (fields.length === 0) return;
+  const filtered = filterByRange(data, range);
+  if (filtered.length === 0) return;
+  const rows    = buildRows(filtered, fields);
+  const dateStr = new Date().toISOString().split('T')[0];
+  if (format === 'csv') exportCSV(rows, dateStr);
+  if (format === 'tsv') exportTSV(rows, dateStr);
+  if (format === 'pdf') exportPDF(rows, dateStr, range);
+}
+
+/* ── Legacy quick-export (Overview header button) ────────────────────────── */
+
+export function exportToCSV(data: HistoryEntry[]) {
+  exportData(data, { range: 'all', fields: ['timestamp', 'waterLevel', 'rainfall'], format: 'csv' });
+}
+
