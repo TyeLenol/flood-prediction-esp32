@@ -2,7 +2,7 @@ import { HistoryEntry } from './useFirebaseData';
 
 /**
  * Calculates the estimated time to reach a specific water level threshold
- * using simple linear regression on the most recent data points.
+ * using rate-of-change averaging on the most recent data points.
  *
  * @param history Array of historical data points
  * @param currentLevel The most recent water level reading
