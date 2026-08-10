@@ -111,9 +111,6 @@ export function LandingPage() {
       {/* 2. PROBLEM SECTION */}
       <section className="min-h-screen flex flex-col justify-center py-20 px-6">
         <div className="max-w-4xl mx-auto w-full">
-          <p ref={addToFadeRefs} className="text-xs uppercase tracking-widest font-bold text-teal-600 dark:text-teal-500 mb-8 ml-1">
-            The Problem
-          </p>
           <div className="space-y-12">
             <h2 ref={addToFadeRefs} className="text-3xl md:text-5xl font-light text-slate-900 dark:text-white tracking-[-0.02em] leading-tight">
               Ghana loses an estimated <span className="text-teal-600 dark:text-teal-400 font-medium">$200 million every year </span> to flooding &mdash; over $1.7 billion in the past decade alone.
@@ -134,11 +131,8 @@ export function LandingPage() {
       {/* 3. SOLUTION SECTION */}
       <section className="min-h-screen flex flex-col items-center justify-center text-center py-20 px-6">
         <div className="max-w-4xl mx-auto w-full">
-          <p ref={addToFadeRefs} className="text-xs uppercase tracking-widest font-bold text-teal-600 dark:text-teal-500 mb-8">
-            The Solution
-          </p>
           <h2 ref={addToFadeRefs} className="text-6xl md:text-8xl lg:text-[10rem] font-display font-bold text-slate-900 dark:text-white tracking-[-0.05em] leading-[0.9] mb-12">
-            Meet<br/><span className="text-teal-600 dark:text-teal-500">Levee.</span>
+            Our solution?<br/><span className="text-teal-600 dark:text-teal-500">Levee.</span>
           </h2>
           <p ref={addToFadeRefs} className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 font-light max-w-2xl mx-auto">
             A distributed network of solar-powered, radar-based water level sensors providing early warning alerts before the floodwaters rise.
@@ -173,12 +167,12 @@ export function LandingPage() {
               activeTab === 'telemetry' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
             }`}>
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-full">
-                <div className="lg:col-span-3 bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform duration-300 pt-8 px-8 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none">
+                <div className="lg:col-span-3 bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform duration-300 p-8 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none">
                   <div>
                     <h3 className="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2">Global Telemetry</h3>
                     <p className="text-slate-600 dark:text-slate-400 font-light max-w-md">Monitor live water levels, soil saturation, and rainfall across all deployed sensor nodes.</p>
                   </div>
-                  <div className="w-full mt-8 rounded-t-xl border-x border-t border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900 aspect-video flex items-center justify-center border-b-0 translate-y-[2px]">
+                  <div className="w-full mt-8 rounded-xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900 aspect-video flex items-center justify-center">
                     <img src="/overview.png" alt="Overview Dashboard" className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
@@ -200,12 +194,12 @@ export function LandingPage() {
               activeTab === 'alerts' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
             }`}>
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-full">
-                <div className="lg:col-span-3 bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform duration-300 pt-8 px-8 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none">
+                <div className="lg:col-span-3 bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform duration-300 p-8 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none">
                   <div>
                     <h3 className="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2">Real-time Alerts</h3>
                     <p className="text-slate-600 dark:text-slate-400 font-light max-w-md">Instant threshold breach detection and automated warning propagation.</p>
                   </div>
-                  <div className="w-full mt-8 rounded-t-xl border-x border-t border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900 aspect-video flex items-center justify-center border-b-0 translate-y-[2px]">
+                  <div className="w-full mt-8 rounded-xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900 aspect-video flex items-center justify-center">
                     <img src="/alerts.png" alt="Alerts Dashboard" className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
@@ -227,12 +221,12 @@ export function LandingPage() {
               activeTab === 'health' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
             }`}>
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-full">
-                <div className="lg:col-span-3 bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform duration-300 pt-8 px-8 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none">
+                <div className="lg:col-span-3 bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform duration-300 p-8 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none">
                   <div>
                     <h3 className="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2">Hardware Health</h3>
                     <p className="text-slate-600 dark:text-slate-400 font-light max-w-md">Deep visibility into the status of the remote ESP32 nodes and component lifecycle.</p>
                   </div>
-                  <div className="w-full mt-8 rounded-t-xl border-x border-t border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900 aspect-video flex items-center justify-center border-b-0 translate-y-[2px]">
+                  <div className="w-full mt-8 rounded-xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900 aspect-video flex items-center justify-center">
                     <img src="/system.png" alt="System Info" className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
@@ -254,12 +248,12 @@ export function LandingPage() {
               activeTab === 'trends' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
             }`}>
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-full">
-                <div className="lg:col-span-3 bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform duration-300 pt-8 px-8 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none">
+                <div className="lg:col-span-3 bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform duration-300 p-8 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none">
                   <div>
                     <h3 className="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2">Historical Trends</h3>
                     <p className="text-slate-600 dark:text-slate-400 font-light max-w-md">Analyze rainfall intensity vs. water level rise to improve predictive models.</p>
                   </div>
-                  <div className="w-full mt-8 rounded-t-xl border-x border-t border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900 aspect-video flex items-center justify-center border-b-0 translate-y-[2px]">
+                  <div className="w-full mt-8 rounded-xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900 aspect-video flex items-center justify-center">
                     <img src="/analytics.png" alt="Analytics Dashboard" className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
